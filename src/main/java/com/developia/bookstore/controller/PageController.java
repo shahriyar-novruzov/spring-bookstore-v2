@@ -8,9 +8,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class PageController {
 
-    @GetMapping("/registerForm")
-    public String registerForm(Model model) {
+    @GetMapping(value = {"/", "/home"})
+    public String home() {
+        return "home";
+    }
+
+    @GetMapping("/register")
+    public String register(Model model) {
         model.addAttribute("user", new User());
         return "register";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
 }
