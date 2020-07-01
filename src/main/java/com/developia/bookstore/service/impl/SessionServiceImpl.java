@@ -39,6 +39,7 @@ public class SessionServiceImpl implements SessionService {
     @Override
     public void delete() {
         Session session = findActiveSession();
+        if (session == null) return;
         session.setEndTime(LocalDateTime.now());
         session.setStatus(SessionStatus.EXPIRED);
         sessionRepository.save(session);
