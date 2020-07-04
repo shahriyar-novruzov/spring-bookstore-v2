@@ -34,10 +34,21 @@ public class PageController {
         return "login";
     }
 
+    @GetMapping("/bookPage")
+    public String bookPage() {
+        return "bookPage";
+    }
+
     @GetMapping("/bookCreate")
     public String bookCreate(Model model) {
         model.addAttribute("book", new Book());
         return "bookCreate";
+    }
+
+    @GetMapping("/bookUpdate")
+    public String bookUpdate(Model model) {
+        model.addAttribute("book", new Book());
+        return "bookUpdate";
     }
 
     @GetMapping("/books")

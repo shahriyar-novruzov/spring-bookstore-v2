@@ -33,6 +33,10 @@
 
         <a th:href="@{/register}">Register</a>
 
+        &nbsp;
+
+        <a th:if="${#response.getHeader('role') == 'ADMIN'}" th:href="@{/bookPage}">Book Management</a>
+
     </div>
 
     <div style="text-align: right">
