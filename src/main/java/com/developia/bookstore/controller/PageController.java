@@ -19,7 +19,9 @@ public class PageController {
     }
 
     @GetMapping(value = {"/", "/home"})
-    public String home() {
+    public String home(Model model) {
+        List<Book> books = bookService.findAll();
+        model.addAttribute("books", books);
         return "home";
     }
 

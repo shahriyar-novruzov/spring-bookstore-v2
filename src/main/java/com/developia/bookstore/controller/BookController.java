@@ -33,15 +33,29 @@ public class BookController {
         return "redirect:/home";
     }
 
-    @PostMapping("/update")
+    @PostMapping(value = "/update", params = "action=Update") // /book/update
     public String update(@ModelAttribute Book book) {
+        System.out.println("update");
         bookService.update(book);
         return "redirect:/home";
     }
 
-    @GetMapping("/delete")
-    public String delete(@RequestParam("isbn") String isbn) {
-        bookService.delete(isbn);
+    @PostMapping(value = "/update", params = "action=Delete")
+    public String delete(@ModelAttribute Book book) {
+        bookService.delete(book.getIsbn());
+        return "redirect:/home";
+    }
+
+    @GetMapping(value = "/view")
+    public String view(Model model, @RequestParam("isbn") String isbn) {
+        Book book = bookService.findByIsbn(isbn);
+        model.addAttribute("book", book);
+        return "bookView";
+    }
+
+    @PostMapping("/addToCart")
+    public String create(@RequestParam("isbn") String isbn) {
+        bookService.addToCart(isbn);
         return "redirect:/home";
     }
 }

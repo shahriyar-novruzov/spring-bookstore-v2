@@ -15,4 +15,6 @@ public interface BookService {
     void delete(String isbn);
 
     List<Book> findAll();
+
+    void addToCart(String isbn);
 }

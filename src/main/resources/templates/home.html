@@ -17,5 +17,31 @@
 
 <h2 class="center">Books you may like</h2>
 
+<br>
+<table class="center">
+
+    <tr th:id="${book.id}" th:each="book : ${books}">
+        <td><a th:href="@{/book/view(isbn=${book.isbn})}">
+            <img style="width: 120px;height: 150px" src="../static/resources/images/algo.png"
+                 th:src="@{/resources/images/algo.png}"/>
+        </a>
+        </td>
+        <td>
+            <table>
+                <tr>
+                    <td th:text="${book.name}"></td>
+                </tr>
+                <tr>
+                    <td th:text="${'by '+ book.author}"></td>
+                </tr>
+                <tr>
+                    <td th:text="${book.price + ' USD'}"></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+</table>
+
 </body>
 </html>

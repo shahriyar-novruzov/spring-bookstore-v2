@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User Registration</title>
+    <style>
+        .center {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<!-- Include header.html -->
+<th:block th:include="/header"></th:block>
+
+<h2 class="center">Book Details</h2>
+
+<table class="center">
+
+    <tr th:id="${book.id}" th:object="${book}">
+        <td>
+            <img style="width: 120px;height: 150px" src="../static/resources/images/algo.png"
+                 th:src="@{/resources/images/algo.png}"/>
+            </a>
+        </td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td>
+            <table>
+                <tr>
+                    <td th:text="${book.name}"></td>
+                </tr>
+                <tr>
+                    <td th:text="${'by '+ book.author}"></td>
+                </tr>
+                <tr>
+                    <td th:text="${book.price + ' USD'}"></td>
+                </tr>
+                <tr>
+                    <td th:text="${book.pageSize + ' pages'}"></td>
+                </tr>
+                <tr>
+                    <td th:text="${book.publishDate + ' date'}"></td>
+                </tr>
+                <tr>
+                    <td th:text="${book.description}"></td>
+                </tr>
+                <form th:action="@{/book/addToCart(isbn=${book.isbn})}" method="POST" >
+                    <td class="center">
+                        <input type="submit" value="Add to Cart" style="color: green"/>
+                    </td>
+                </form>
+            </table>
+        </td>
+    </tr>
+
+</table>
+
+</body>
+</html>
