@@ -2,6 +2,7 @@ package com.developia.bookstore.controller;
 
 import com.developia.bookstore.model.Book;
 import com.developia.bookstore.service.BookService;
+import com.developia.bookstore.service.CartService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class BookController {
 
     private final BookService bookService;
+    private final CartService cartService;
 
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService, CartService cartService) {
         this.bookService = bookService;
+        this.cartService = cartService;
     }
 
     @GetMapping("/findByIsbn")
@@ -54,8 +57,14 @@ public class BookController {
     }
 
     @PostMapping("/addToCart")
-    public String create(@RequestParam("isbn") String isbn) {
-        bookService.addToCart(isbn);
+    public String addToCart(@RequestParam("isbn") String isbn) {
+        cartService.addBook(isbn);
+        return "redirect:/home";
+    }
+
+    @PostMapping("/removeFromCart")
+    public String removeFromCart(@RequestParam("isbn") String isbn) {
+        cartService.removeBook(isbn);
         return "redirect:/home";
     }
 }

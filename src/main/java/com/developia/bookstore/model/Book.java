@@ -1,5 +1,6 @@
 package com.developia.bookstore.model;
 
+import com.developia.bookstore.model.enums.Review;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,8 +11,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -31,4 +35,17 @@ public class Book {
     private Integer pageSize;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate publishDate;
+    @OneToMany
+    private List<Review> reviews = new ArrayList<>();
+
+    public BigDecimal getRating() {
+
+        BigDecimal totalRating = BigDecimal.ZERO;
+        for (Review review : reviews)
+            totalRating = totalRating.add(review.getRating());
+
+        if (reviews.size() == 0) return null;
+
+        return totalRating.divide(BigDecimal.valueOf(reviews.size()));
+    }
 }

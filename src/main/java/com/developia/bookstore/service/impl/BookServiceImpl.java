@@ -59,23 +59,5 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findAll();
     }
 
-    @Override
-    public void addToCart(String isbn) {
-        Session session = sessionService.findActiveSession();
-        if (session == null) return;
 
-        User user = session.getUser();
-        Cart cart = cartRepository.findByUser(user);
-
-        if (cart == null) {
-            cart = new Cart();
-            cart.setUser(user);
-        }
-
-        Book book = findByIsbn(isbn);
-        List<Book> booksInCart = cart.getBooks();
-        booksInCart.add(book);
-
-        cartRepository.save(cart);
-    }
 }

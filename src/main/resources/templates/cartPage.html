@@ -1,15 +1,13 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>User Registration</title>
+    <title>Online Book Store</title>
     <style>
         .center {
             width: 80%;
             margin: 0 auto;
             padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            text-align: center;
         }
     </style>
 </head>
@@ -17,17 +15,16 @@
 <!-- Include header.html -->
 <th:block th:include="/header"></th:block>
 
-<h2 class="center">Book Details</h2>
-
+<h2 class="center">Books in my Cart</h2>
+<br>
 <table class="center">
 
-    <tr th:id="${book.id}" th:object="${book}">
-        <td>
+    <tr th:id="${book.id}" th:each="book : ${cart.books}">
+        <td><a th:href="@{/book/view(isbn=${book.isbn})}">
             <img style="width: 120px;height: 150px" src="../static/resources/images/algo.png"
                  th:src="@{/resources/images/algo.png}"/>
-            </a>
+        </a>
         </td>
-        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
         <td>
             <table>
                 <tr>
@@ -49,18 +46,23 @@
                     <td th:text="${book.description}"></td>
                 </tr>
                 <tr>
-                    <td th:text="${book.getRating()}"></td>
+                    <form th:action="@{/book/removeFromCart(isbn=${book.isbn})}" method="POST" >
+                        <td class="center">
+                            <input type="submit" value="Remove" style="color: red"/>
+                        </td>
+                    </form>
                 </tr>
-                <form th:action="@{/book/addToCart(isbn=${book.isbn})}" method="POST" >
-                    <td class="center">
-                        <input type="submit" value="Add to Cart" style="color: green"/>
-                    </td>
-                </form>
             </table>
         </td>
     </tr>
 
 </table>
+
+<form th:if="${!cart.getBooks().isEmpty()}" th:action="@{/checkoutPage}" method="GET" class="center" >
+    <td class="center">
+        <input type="submit" value="Checkout" style="color: blue"/>
+    </td>
+</form>
 
 </body>
 </html>
