@@ -1,12 +1,12 @@
 package com.developia.bookstore.model;
 
-import com.developia.bookstore.model.enums.Review;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,7 +35,7 @@ public class Book {
     private Integer pageSize;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate publishDate;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
 
     public BigDecimal getRating() {

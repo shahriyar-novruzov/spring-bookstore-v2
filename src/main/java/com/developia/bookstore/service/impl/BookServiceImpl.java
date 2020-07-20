@@ -1,15 +1,14 @@
 package com.developia.bookstore.service.impl;
 
 import com.developia.bookstore.model.Book;
-import com.developia.bookstore.model.Cart;
-import com.developia.bookstore.model.Session;
+import com.developia.bookstore.model.Review;
 import com.developia.bookstore.model.User;
 import com.developia.bookstore.repository.BookRepository;
-import com.developia.bookstore.repository.CartRepository;
 import com.developia.bookstore.service.BookService;
 import com.developia.bookstore.service.SessionService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -17,13 +16,10 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final SessionService sessionService;
-    private final CartRepository cartRepository;
 
-    public BookServiceImpl(BookRepository bookRepository, SessionService sessionService,
-                           CartRepository cartRepository) {
+    public BookServiceImpl(BookRepository bookRepository, SessionService sessionService) {
         this.bookRepository = bookRepository;
         this.sessionService = sessionService;
-        this.cartRepository = cartRepository;
     }
 
     @Override
@@ -59,5 +55,24 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findAll();
     }
 
+    @Override
+    public void review(String isbn, Review review) {
 
+        if (review.getRating() == null || review.getComment() == null || review.getComment().isEmpty())
+            return;
+
+        if (review.getRating().compareTo(BigDecimal.valueOf(1)) < 0 || review.getRating()
+                .compareTo(BigDecimal.valueOf(5)) > 0) return;
+
+        Book book = findByIsbn(isbn);
+        User user = sessionService.findActiveSession().getUser();
+
+        review.setBook(book);
+        review.setUser(user);
+
+        List<Review> reviews = book.getReviews();
+        reviews.add(review);
+
+        bookRepository.save(book);
+    }
 }

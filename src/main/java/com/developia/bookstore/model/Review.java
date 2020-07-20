@@ -1,4 +1,4 @@
-package com.developia.bookstore.model.enums;
+package com.developia.bookstore.model;
 
 import com.developia.bookstore.model.Book;
 import com.developia.bookstore.model.User;

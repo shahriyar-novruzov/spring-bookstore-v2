@@ -14,8 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
-import java.math.BigDecimal;
+import javax.persistence.ManyToOne;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,27 +23,21 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-public class Cart {
+@Entity(name = "orders")
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToOne
-    private User user;
+    private String orderNumber;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
-            name = "carts_books",
-            joinColumns = {@JoinColumn(name = "cart_id")},
+            name = "orders_books",
+            joinColumns = {@JoinColumn(name = "order_id")},
             inverseJoinColumns = {@JoinColumn(name = "book_id")}
     )
     private List<Book> books = new ArrayList<>();
-
-    public BigDecimal getTotalPrice() {
-        BigDecimal totalPrice = BigDecimal.ZERO;
-        for (Book book : books)
-            totalPrice = totalPrice.add(book.getPrice());
-
-        return totalPrice;
-    }
+    @ManyToOne
+    private User user;
+    private LocalDateTime dateTime;
 }
