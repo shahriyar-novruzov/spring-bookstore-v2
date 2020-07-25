@@ -1,11 +1,9 @@
 package com.developia.bookstore.controller;
 
-import com.developia.bookstore.model.Book;
-import com.developia.bookstore.model.Card;
-import com.developia.bookstore.model.Cart;
-import com.developia.bookstore.model.User;
+import com.developia.bookstore.model.*;
 import com.developia.bookstore.service.BookService;
 import com.developia.bookstore.service.CartService;
+import com.developia.bookstore.service.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,10 +16,12 @@ public class PageController {
 
     private final BookService bookService;
     private final CartService cartService;
+    private final OrderService orderService;
 
-    public PageController(BookService bookService, CartService cartService) {
+    public PageController(BookService bookService, CartService cartService, OrderService orderService) {
         this.bookService = bookService;
         this.cartService = cartService;
+        this.orderService = orderService;
     }
 
     @GetMapping(value = {"/", "/home"})
@@ -81,5 +81,12 @@ public class PageController {
         model.addAttribute("card", new Card());
         model.addAttribute("total", totalPrice);
         return "checkoutPage";
+    }
+
+    @GetMapping("/ordersPage")
+    public String ordersPage(Model model) {
+        List<Order> orders = orderService.findAll();
+        model.addAttribute("orders", orders);
+        return "ordersPage";
     }
 }

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.CreditCardNumber;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
@@ -22,6 +23,7 @@ public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @CreditCardNumber
     private String cardNo;
     private String firstName;
     private String lastName;

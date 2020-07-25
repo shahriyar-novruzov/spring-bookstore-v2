@@ -1,16 +1,9 @@
 package com.developia.bookstore.service.impl;
 
-import com.developia.bookstore.model.Book;
-import com.developia.bookstore.model.Card;
-import com.developia.bookstore.model.Cart;
-import com.developia.bookstore.model.Order;
-import com.developia.bookstore.model.Session;
-import com.developia.bookstore.model.User;
+import com.developia.bookstore.model.*;
 import com.developia.bookstore.repository.CartRepository;
 import com.developia.bookstore.repository.OrderRepository;
-import com.developia.bookstore.service.BookService;
-import com.developia.bookstore.service.CartService;
-import com.developia.bookstore.service.SessionService;
+import com.developia.bookstore.service.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -24,15 +17,15 @@ public class CartServiceImpl implements CartService {
     private final SessionService sessionService;
     private final CartRepository cartRepository;
     private final BookService bookService;
-    private final OrderRepository orderRepository;
+    private final OrderService orderService;
 
     public CartServiceImpl(SessionService sessionService,
                            CartRepository cartRepository, BookService bookService,
-                           OrderRepository orderRepository) {
+                           OrderService orderService) {
         this.sessionService = sessionService;
         this.cartRepository = cartRepository;
         this.bookService = bookService;
-        this.orderRepository = orderRepository;
+        this.orderService = orderService;
     }
 
     @Override
@@ -95,6 +88,6 @@ public class CartServiceImpl implements CartService {
                 .user(user)
                 .build();
 
-        orderRepository.save(order);
+        orderService.create(order);
     }
 }
