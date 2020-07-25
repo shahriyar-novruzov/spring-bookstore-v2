@@ -33,6 +33,7 @@ public class Book {
     private BigDecimal price;
     private String description;
     private Integer pageSize;
+    private String imageName;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate publishDate;
     @OneToMany(cascade = CascadeType.ALL)

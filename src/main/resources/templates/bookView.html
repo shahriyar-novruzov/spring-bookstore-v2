@@ -23,8 +23,8 @@
 
     <tr th:id="${book.id}" th:object="${book}">
         <td>
-            <img style="width: 120px;height: 150px" src="../static/resources/images/algo.png"
-                 th:src="@{/resources/images/algo.png}"/>
+            <img style="width: 120px;height: 150px"
+                 th:src="@{${'/resources/images/' + book.imageName}}"/>
             </a>
         </td>
         <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>

@@ -3,6 +3,7 @@ package com.developia.bookstore.config;
 import com.developia.bookstore.model.Session;
 import com.developia.bookstore.model.enums.Role;
 import com.developia.bookstore.service.SessionService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.Filter;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 @Configuration
 public class RequestFilter implements Filter {
 
@@ -27,6 +29,8 @@ public class RequestFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
 
+        log.trace("doFilter started");
+
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse res = (HttpServletResponse) servletResponse;
 
@@ -36,5 +40,7 @@ public class RequestFilter implements Filter {
         else res.addHeader("role", session.getUser().getRole().name());
 
         filterChain.doFilter(req, res);
+
+        log.trace("doFilter end");
     }
 }

@@ -21,8 +21,8 @@
 
     <tr th:id="${book.id}" th:each="book : ${cart.books}">
         <td><a th:href="@{/book/view(isbn=${book.isbn})}">
-            <img style="width: 120px;height: 150px" src="../static/resources/images/algo.png"
-                 th:src="@{/resources/images/algo.png}"/>
+            <img style="width: 120px;height: 150px"
+                 th:src="@{${'/resources/images/' + book.imageName}}"/>
         </a>
         </td>
         <td>

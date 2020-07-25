@@ -9,8 +9,10 @@ import com.developia.bookstore.repository.UserRepository;
 import com.developia.bookstore.service.SessionService;
 import com.developia.bookstore.service.UserService;
 import com.developia.bookstore.util.PasswordHasher;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -43,6 +45,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(String username, String password) {
 
+        log.debug("login started username: {}", username);
+
         Session session = sessionService.findActiveSession();
         if (session != null) return session.getUser();
 
@@ -50,8 +54,10 @@ public class UserServiceImpl implements UserService {
 
         try {
             user = userRepository.findByUsername(username);
+            if (user == null) throw new NotFoundException(username + " not found");
         } catch (Exception e) {
-            throw new NotFoundException(username + " not found");
+            log.error("error in login username: {}", username, e);
+            throw e;
         }
 
         String hashPassword = passwordHasher.hash(password.toCharArray());
@@ -60,6 +66,8 @@ public class UserServiceImpl implements UserService {
             throw new AccessDeniedException("Incorrect password");
 
         sessionService.create(user);
+
+        log.debug("login finished username: {}", username);
 
         return user;
     }

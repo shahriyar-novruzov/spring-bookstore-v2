@@ -1,9 +1,17 @@
 package com.developia.bookstore.service.impl;
 
-import com.developia.bookstore.model.*;
+import com.developia.bookstore.model.Book;
+import com.developia.bookstore.model.Card;
+import com.developia.bookstore.model.Cart;
+import com.developia.bookstore.model.Order;
+import com.developia.bookstore.model.Session;
+import com.developia.bookstore.model.User;
 import com.developia.bookstore.repository.CartRepository;
-import com.developia.bookstore.repository.OrderRepository;
-import com.developia.bookstore.service.*;
+import com.developia.bookstore.service.BookService;
+import com.developia.bookstore.service.CartService;
+import com.developia.bookstore.service.OrderService;
+import com.developia.bookstore.service.SessionService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -11,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class CartServiceImpl implements CartService {
 
@@ -39,6 +48,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void addBook(String isbn) {
+        log.info("addBook start");
         Session session = sessionService.findActiveSession();
         if (session == null) return;
 
@@ -55,6 +65,8 @@ public class CartServiceImpl implements CartService {
         booksInCart.add(book);
 
         cartRepository.save(cart);
+
+        log.info("addBook end");
     }
 
     @Override

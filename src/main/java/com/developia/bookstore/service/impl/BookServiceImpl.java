@@ -6,11 +6,13 @@ import com.developia.bookstore.model.User;
 import com.developia.bookstore.repository.BookRepository;
 import com.developia.bookstore.service.BookService;
 import com.developia.bookstore.service.SessionService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+@Slf4j
 @Service
 public class BookServiceImpl implements BookService {
 
@@ -29,6 +31,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void create(Book book) {
+        log.debug("create book: {}", book);
         bookRepository.save(book);
     }
 
@@ -57,6 +60,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void review(String isbn, Review review) {
+
+
 
         if (review.getRating() == null || review.getComment() == null || review.getComment().isEmpty())
             return;
